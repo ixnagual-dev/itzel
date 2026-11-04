@@ -18,6 +18,12 @@ import { configureLinuxPasswordStore } from './linuxPasswordStore.js';
 import { recognizeLinuxUserInstallation, linuxUserDesktopName } from './linuxInstallation.js';
 import { prepareCindyVersionStartup, dispatchCindyVersionStartup } from './cindy-make/versionStartup.js';
 
+// Itzel's private remote viewer can run on a virtual display without a GPU.
+if (process.env.ITZEL_SOFTWARE_RENDERING === '1') {
+  app.disableHardwareAcceleration();
+  if (process.platform === 'linux') app.commandLine.appendSwitch('ozone-platform', 'x11');
+}
+
 if (process.platform === 'linux' && app.isPackaged) {
   const installation = recognizeLinuxUserInstallation(app.getPath('exe'), os.homedir(), process.getuid?.() ?? -1);
   if (installation) app.setDesktopName(linuxUserDesktopName(installation.prefix));
