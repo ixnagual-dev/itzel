@@ -1,3 +1,4 @@
+// Modified for Itzel independent profiles, 2026-11-04. Existing region tests protect data isolation.
 import { describe, expect, it } from 'vitest';
 import { resolveRegionUserDataDirName } from '../regionUserData';
 
@@ -12,25 +13,25 @@ describe('resolveRegionUserDataDirName', () => {
   it('packaged + global → 覆写为 CindyGlobal(与 cn 分库)', () => {
     expect(
       resolveRegionUserDataDirName({ isPackaged: true, region: 'global', argv: ARGV }),
-    ).toBe('CindyGlobal');
+    ).toBeNull();
   });
 
   it('packaged + cn → null(区域目录名 = productName 默认,保持原生行为)', () => {
     expect(
       resolveRegionUserDataDirName({ isPackaged: true, region: 'cn', argv: ARGV }),
-    ).toBeNull();
+    ).toBe('ItzelCN');
   });
 
   it('dev(非 packaged)按区域选择正式 profile，隔离沙箱再基于它派生', () => {
     expect(
       resolveRegionUserDataDirName({ isPackaged: false, region: 'cn', argv: ARGV }),
-    ).toBeNull();
+    ).toBe('ItzelCN');
     expect(
       resolveRegionUserDataDirName({ isPackaged: false, region: 'global', argv: ARGV }),
-    ).toBe('CindyGlobal');
+    ).toBeNull();
     expect(
       resolveRegionUserDataDirName({ isPackaged: false, region: 'dev', argv: ARGV }),
-    ).toBe('CindyDev');
+    ).toBe('ItzelDev');
   });
 
   it('显式 Chromium --user-data-dir 时不覆写,尊重调用方', () => {
@@ -58,6 +59,6 @@ describe('resolveRegionUserDataDirName', () => {
         argv: ARGV,
         envUserDataDir: '/tmp/custom-profile',
       }),
-    ).toBe('CindyGlobal');
+    ).toBeNull();
   });
 });

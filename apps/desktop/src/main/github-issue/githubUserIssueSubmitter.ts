@@ -1,3 +1,4 @@
+// Modified for Itzel feedback routing, 2026-11-04.
 /**
  * Cindy GitHub 用户身份提交适配器。
  *
@@ -15,7 +16,7 @@ export const PLATFORM_ISSUE_SUBMISSION_IDENTITY = {
   login: 'cindy-issue',
 } as const satisfies IssueSubmissionIdentity;
 
-const FEEDBACK_REPOSITORY = { owner: 'makecindy', repo: 'cindy' } as const;
+const FEEDBACK_REPOSITORY = { owner: 'ixnagual-dev', repo: 'itzel' } as const;
 
 type GhostToolCallResult =
   { ok: true; result: unknown } | { ok: false; errorCode: string; message: string };

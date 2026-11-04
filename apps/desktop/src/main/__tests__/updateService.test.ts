@@ -4,6 +4,17 @@ import os from 'node:os';
 import path from 'node:path';
 import { TEST_CDN_BASE_URL as CDN_EXTERNAL_BASE_URL } from '../../test/vitest/clientEndpointsFixture';
 
+// Modified for Itzel, 2026-11-04. Reuses the updater's existing fixture to verify
+// a real packaged build cannot fetch or apply upstream updates. The upstream
+// suite exercises the original policy; the final describe enables Itzel policy.
+// Gap: no independent local distribution existed. Minimal input: a valid remote
+// manifest on a versioned packaged app. Tier: unit; no real network or processes.
+const distributionPolicy = vi.hoisted(() => ({ localOnly: false }));
+vi.mock('@cindy/maker-shared/branding', async (importOriginal) => ({
+  ...await importOriginal<typeof import('@cindy/maker-shared/branding')>(),
+  get LOCAL_ONLY_DISTRIBUTION() { return distributionPolicy.localOnly; },
+}));
+
 const originalPlatform = process.platform;
 const originalArch = process.arch;
 let TEST_ROOT: string;
@@ -220,6 +231,7 @@ afterAll(() => {
   fs.rmSync(TEST_ROOT, { recursive: true, force: true, maxRetries: 3, retryDelay: 50 });
 });
 beforeEach(() => {
+  distributionPolicy.localOnly = false;
   // Own every startup/background timer so afterEach can cancel it before the
   // app.getPath mock starts pointing at the next test's isolated fixture.
   vi.useFakeTimers();
@@ -1314,7 +1326,7 @@ describe('checkForUpdate 版本无关(占位 0.0.0)打包豁免', () => {
   it('0.0.0-dev 形态同样豁免;真实版本不受影响', async () => {
     appGetVersion.mockReturnValue('0.0.0-dev');
     const service = await freshUpdateService('win32');
-    expect(await service.checkForUpdate(updateManifest('9.9.9'))).toBe('idle');
+    expect(await service.checkForUpdate({ app: { version: '9.9.9' } })).toBe('idle');
     expect(download).not.toHaveBeenCalled();
 
     expect(service.isVersionlessAppVersion('0.0.0')).toBe(true);
@@ -1332,7 +1344,7 @@ describe('personal version app update policy', () => {
     identity.setCindyPersonalRuntime(true);
     try {
       service.initUpdateService();
-      expect(await service.checkForUpdate(updateManifest('9.9.9'))).toBe('idle');
+      expect(await service.checkForUpdate({ app: { version: '9.9.9' } })).toBe('idle');
       expect(await ipcHandlers.get('update-check-startup')!()).toMatchObject({ hasUpdate: false, action: 'none' });
       ipcListeners.get('update-relaunch')!({}, 'dark');
       expect(fetchManifest).not.toHaveBeenCalled();
@@ -2745,4 +2757,36 @@ describe('splash 启动下载 0% 显式广播', () => {
     expect(progressCountWhenDownloadStarted).toBe(0);
   });
 });
+});
+
+// Itzel cannot be replaced by an upstream app update, including staged patches.
+describe('Itzel local distribution update policy', () => {
+  beforeEach(() => { distributionPolicy.localOnly = true; });
+
+  it.each(['linux', 'darwin', 'win32'] as const)(
+    'blocks upstream checks and background downloads on %s',
+    async (platform) => {
+      const service = await freshUpdateService(platform);
+      service.initUpdateService();
+      expect(await service.checkForUpdate({ app: { version: '9.9.9' } })).toBe('idle');
+      expect(await ipcHandlers.get('update-check-startup')?.()).toEqual({
+        hasUpdate: false, action: 'none',
+      });
+      await vi.advanceTimersByTimeAsync(2 * 60 * 60 * 1000);
+      expect(fetchManifest).not.toHaveBeenCalled();
+      expect(download).not.toHaveBeenCalled();
+      expect(appRelaunch).not.toHaveBeenCalled();
+      expect(appQuit).not.toHaveBeenCalled();
+      service.stopUpdateService();
+    },
+  );
+
+  it('rejects an agent request to install an upstream update', async () => {
+    const service = await freshUpdateService('linux');
+    const result = await service.applyConfirmedAppUpdateForAgent({ expectedVersion: '9.9.9', beforeRelaunch: async () => true });
+    expect(result).toMatchObject({ status: 'failed', errorCode: 'unsupported' });
+    expect(fetchManifest).not.toHaveBeenCalled();
+    expect(download).not.toHaveBeenCalled();
+    expect(appQuit).not.toHaveBeenCalled();
+  });
 });

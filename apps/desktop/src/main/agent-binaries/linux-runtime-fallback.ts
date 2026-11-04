@@ -15,6 +15,9 @@ import { app } from 'electron';
 
 import claudeLatest from '../../../../../tools/claude/latest.json';
 import codexLatest from '../../../../../tools/codex/latest.json';
+// Modified for Itzel system CLI selection, 2026-11-04.
+import codexPackageLatest from '../../../../../tools/codex-package/latest.json';
+import piLatest from '../../../../../tools/pi/latest.json';
 import { download, type ProgressEvent } from '../downloader/index.js';
 import { parseBinaryVersionOutput } from './binary-version-probe.js';
 
@@ -263,9 +266,17 @@ async function readExecutableVersion(
   }
 }
 
-async function findSystemBinaryAsync(
+export async function findSystemPiBinaryAsync(signal?: AbortSignal): Promise<string | null> {
+  const candidate = await findCommandAsync('pi', signal);
+  if (!candidate) return null;
+  const output = await readExecutableVersion(candidate, signal);
+  return output && parseVersionOutput(output) === piLatest.version ? candidate : null;
+}
+
+export async function findSystemBinaryAsync(
   kind: LinuxRuntimeFallbackKind,
   signal?: AbortSignal,
+  currentPackage = false,
 ): Promise<string | null> {
   const candidate = await findCommandAsync(CONFIG[kind].commandName, signal);
   if (!candidate) return null;
@@ -285,6 +296,11 @@ async function findSystemBinaryAsync(
       if (signal?.aborted) throw probeCancelledError(candidate);
       return candidate;
     }
+  }
+  // Itzel uses the full Codex package, whose supported version is newer than
+  // the standalone binary used by the legacy Linux download fallback.
+  if (currentPackage) {
+    return parseVersionOutput(versionOutput) === codexPackageLatest.version ? candidate : null;
   }
   if (runtimeVersionMatchesPin(kind, versionOutput)) return candidate;
   return null;

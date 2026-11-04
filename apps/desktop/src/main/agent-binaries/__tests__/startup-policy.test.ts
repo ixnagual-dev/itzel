@@ -9,8 +9,11 @@ import type { Manifest } from '../../manifestService';
 import { createPiRuntimeRecovery } from '../pi-runtime-recovery';
 import { writeStartupBinaryUpdateMarker } from '../startup-update';
 import { newerStableVersion, PINNED_CLAUDE_VERSION, PINNED_CODEX_VERSION } from './runtimeVersionFixtures';
+import codexPackageLatest from '../../../../../../tools/codex-package/latest.json';
+import piLatest from '../../../../../../tools/pi/latest.json';
 
 const mocks = vi.hoisted(() => ({
+  localOnly: false,
   userDataDir: '',
   isPackaged: true,
   cachedManifest: null as Manifest | null,
@@ -20,6 +23,15 @@ const mocks = vi.hoisted(() => ({
   backgroundDownload: vi.fn(),
   execFile: vi.fn(),
   systemCommands: new Map<string, string>(),
+}));
+
+// Modified for Itzel, 2026-11-04. Existing installer cases retain upstream policy;
+// local cases verify the public prepare/cache entrypoints choose PATH binaries
+// without network or replacement. Gap: no PATH-only distribution previously existed.
+// Minimal failure: a valid PATH CLI beside a newer remote manifest. Tier: unit.
+vi.mock('@cindy/maker-shared/branding', async (importOriginal) => ({
+  ...await importOriginal<typeof import('@cindy/maker-shared/branding')>(),
+  get LOCAL_ONLY_DISTRIBUTION() { return mocks.localOnly; },
 }));
 
 vi.mock('electron', () => ({
@@ -81,6 +93,7 @@ beforeAll(() => {
   tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'cindy-startup-policy-'));
 });
 beforeEach(async () => {
+  mocks.localOnly = false;
   mocks.userDataDir = path.join(tempRoot, 'user-data');
   mocks.isPackaged = true;
   mocks.systemCommands.clear();
@@ -384,5 +397,30 @@ describe('Linux local discovery before any update download', () => {
     await expect(binaries.prepare('codex', quiet)).resolves.toMatchObject({ ready: true });
     expect(binaries.getReadyBinaryPath('codex') === binaryPath).toBe(!broken);
     expect(mocks.download).toHaveBeenCalledTimes(broken ? 1 : 0);
+  });
+});
+
+describe('Itzel PATH runtime policy', () => {
+  it.each([
+    ['claude-code', 'claude', PINNED_CLAUDE_VERSION],
+    ['codex', 'codex', codexPackageLatest.version],
+    ['pi', 'pi', piLatest.version],
+  ] as const)('selects the installed %s CLI and caches its path without a download', async (kind, command, version) => {
+    mocks.localOnly = true;
+    await reloadBinaries('linux');
+    const binaryPath = writeExecutable(path.join(tempRoot, 'system-' + command), version);
+    mocks.systemCommands.set(command, binaryPath);
+    expect(await binaries.prepare(kind, quiet)).toMatchObject({ ready: true, path: binaryPath, downloaded: false });
+    expect(binaries.getCachedBinaryStatus(kind)).toMatchObject({ binaryReady: true, binaryPath });
+    expect(mocks.fetchManifest).not.toHaveBeenCalled();
+    expect(mocks.download).not.toHaveBeenCalled();
+  });
+
+  it('reports a missing CLI without silently downloading a replacement', async () => {
+    mocks.localOnly = true;
+    await reloadBinaries('linux');
+    expect(await binaries.prepare('codex', quiet)).toMatchObject({ ready: false, downloaded: false });
+    expect(mocks.fetchManifest).not.toHaveBeenCalled();
+    expect(mocks.download).not.toHaveBeenCalled();
   });
 });

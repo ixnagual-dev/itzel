@@ -146,45 +146,23 @@ export interface BrandIdentity {
  * 无感;cdnPrefix 共用因发布渠道靠不同 OSS bucket 区分;db 前缀因 userData
  * 已分目录无需再区分)。
  */
+// Modified for the independent Itzel distribution, 2026-11-04.
 export const BRAND_IDENTITY: BrandIdentity = Object.freeze({
   displayName: BRAND_NAME,
-  executableName: 'Cindy',
-  executableNameByRegion: Object.freeze({
-    cn: 'Cindy',
-    // 2026-07-26 与 cn 同值(见字段 doc):global 包全部可见位置显示 Cindy,
-    // 放弃 cn/global 同机双装的文件层隔离;appId / userData 仍分区。
-    global: 'Cindy',
-    dev: 'CindyDev',
-  }),
-  appIdByRegion: Object.freeze({
-    cn: 'com.xd.cindycn',
-    global: 'com.xd.cindy',
-    dev: 'com.xd.cindydev',
-  }),
-  primaryScheme: 'cindy',
-  legacySchemes: Object.freeze(['xdt-maker']),
-  userDataDirName: 'Cindy',
-  userDataDirNameByRegion: Object.freeze({
-    cn: 'Cindy',
-    global: 'CindyGlobal',
-    dev: 'CindyDev',
-  }),
-  legacyUserDataDirNames: Object.freeze(['xdt-maker']),
-  legacyUserDataDirNamesByRegion: Object.freeze({
-    cn: Object.freeze(['xdt-maker']),
-    global: Object.freeze([]),
-    dev: Object.freeze([]),
-  }),
-  legacyDialogueUserDataDirNamesByRegion: Object.freeze({
-    cn: Object.freeze(['xdt-maker']),
-    // xdt-maker 是旧 CN 渠道的数据来源；Global 不导入或改写 CN 的历史 cwd。
-    global: Object.freeze([]),
-    dev: Object.freeze([]),
-  }),
-  cdnPrefix: 'cindy',
+  executableName: 'Itzel',
+  executableNameByRegion: Object.freeze({ cn: 'ItzelCN', global: 'Itzel', dev: 'ItzelDev' }),
+  appIdByRegion: Object.freeze({ cn: 'app.itzel.desktop.cn', global: 'app.itzel.desktop', dev: 'app.itzel.desktop.dev' }),
+  primaryScheme: 'itzel',
+  legacySchemes: Object.freeze([]),
+  userDataDirName: 'Itzel',
+  userDataDirNameByRegion: Object.freeze({ cn: 'ItzelCN', global: 'Itzel', dev: 'ItzelDev' }),
+  legacyUserDataDirNames: Object.freeze([]),
+  legacyUserDataDirNamesByRegion: Object.freeze({ cn: Object.freeze([]), global: Object.freeze([]), dev: Object.freeze([]) }),
+  legacyDialogueUserDataDirNamesByRegion: Object.freeze({ cn: Object.freeze([]), global: Object.freeze([]), dev: Object.freeze([]) }),
+  cdnPrefix: 'itzel',
   updaterName: 'cindy-updater',
-  dbFilePrefix: 'cindy',
-  legacyDbFilePrefixes: Object.freeze(['xdt-maker']),
+  dbFilePrefix: 'itzel',
+  legacyDbFilePrefixes: Object.freeze([]),
 });
 
 /** 按区域取 appId(AUMID / bundle id);默认 global。 */

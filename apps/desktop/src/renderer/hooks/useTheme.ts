@@ -53,7 +53,8 @@ export function getStoredTheme(): Theme {
   } catch {
     // localStorage may be unavailable
   }
-  return 'system';
+  // Modified for Itzel, 2026-11-04: obsidian is the new-install default.
+  return 'dark';
 }
 
 /**

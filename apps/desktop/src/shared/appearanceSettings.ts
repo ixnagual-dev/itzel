@@ -86,11 +86,7 @@ export const APPEARANCE_LIMITS = {
 /** Current picker order; saved selections also accept the hidden compatibility IDs below. */
 export const SELECTABLE_WALLPAPER_IDS = [
   'none',
-  'cindy-whisper',
-  'cindy-night-glance',
-  'cindy-scarlet-stroll',
-  'cindy-neon',
-  'cindy-prism',
+  'itzel-jade', // Original local artwork for the Itzel fork, 2026-11-04.
   'night-launch',
   'silent-orbits',
   'dune-dawn',
@@ -103,7 +99,10 @@ export const SELECTABLE_WALLPAPER_IDS = [
 ] as const;
 
 /** Removed from the picker; saved selections keep working until the user switches away. */
-export const RETIRED_WALLPAPER_IDS = ['cindy-window', 'cindy-studio', 'cindy-dream'] as const;
+export const RETIRED_WALLPAPER_IDS = [
+  'cindy-window', 'cindy-studio', 'cindy-dream',
+  'cindy-whisper', 'cindy-night-glance', 'cindy-scarlet-stroll', 'cindy-neon', 'cindy-prism',
+] as const;
 export const WALLPAPER_IDS = [...SELECTABLE_WALLPAPER_IDS, ...RETIRED_WALLPAPER_IDS] as const;
 export type WallpaperId = (typeof WALLPAPER_IDS)[number];
 

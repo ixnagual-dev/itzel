@@ -15,4 +15,8 @@
  */
 
 /** 产品对用户 / LLM 展示的品牌名（唯一规范写法，不要再派生其它变体）。 */
-export const BRAND_NAME = 'Cindy';
+// Modified for the Itzel fork, 2026-11-04.
+export const BRAND_NAME = 'Itzel';
+
+/** This distribution runs local agents and never installs Cindy app updates. */
+export const LOCAL_ONLY_DISTRIBUTION = true;

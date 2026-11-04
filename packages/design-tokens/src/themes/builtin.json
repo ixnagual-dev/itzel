@@ -4926,6 +4926,370 @@
         "$type": "color",
         "$value": "{reference.themes.solarized-light.value-search-match-bg}"
       }
+    },
+    "itzel-dark": {
+      "surface": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface}"
+      },
+      "surface-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-hsl}"
+      },
+      "surface-elevated": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-elevated}"
+      },
+      "surface-elevated-soft": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-elevated-soft}"
+      },
+      "surface-card-ivory": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-card-ivory}"
+      },
+      "surface-chip-alt": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-chip-alt}"
+      },
+      "surface-on-card": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-on-card}"
+      },
+      "switch-track-on": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-switch-track-on}"
+      },
+      "border-default": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-border-default}"
+      },
+      "border-default-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-border-default-hsl}"
+      },
+      "border-shadcn-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-border-shadcn-hsl}"
+      },
+      "border-transparent-mixed": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-border-transparent-mixed}"
+      },
+      "text-primary": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-text-primary}"
+      },
+      "text-primary-emphasis": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-text-primary-emphasis}"
+      },
+      "text-primary-inv": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-text-primary-inv}"
+      },
+      "text-primary-body-strong": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-text-primary-body-strong}"
+      },
+      "text-primary-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-text-primary-hsl}"
+      },
+      "text-secondary": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-text-secondary}"
+      },
+      "text-secondary-mid": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-text-secondary-mid}"
+      },
+      "accent-cta-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-accent-cta-bg}"
+      },
+      "accent-cta-bg-pure": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-accent-cta-bg-pure}"
+      },
+      "accent-emphasis": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-accent-emphasis}"
+      },
+      "accent-soft": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-accent-soft}"
+      },
+      "accent-hover": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-accent-hover}"
+      },
+      "accent-pure-cta-fg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-accent-pure-cta-fg}"
+      },
+      "background": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-background}"
+      },
+      "chat-input-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-chat-input-bg}"
+      },
+      "chat-input-border-focus": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-chat-input-border-focus}"
+      },
+      "chat-input-text": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-chat-input-text}"
+      },
+      "caret-accent": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-caret-accent}"
+      },
+      "confirm-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-confirm-bg}"
+      },
+      "confirm-btn-primary-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-confirm-btn-primary-bg}"
+      },
+      "confirm-btn-primary-text": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-confirm-btn-primary-text}"
+      },
+      "splash-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-splash-bg}"
+      },
+      "splash-text": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-splash-text}"
+      },
+      "splash-text-muted": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-splash-text-muted}"
+      },
+      "surface-translucent-main": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-translucent-main}"
+      },
+      "surface-translucent-overlay": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-translucent-overlay}"
+      },
+      "send-btn-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-send-btn-bg}"
+      },
+      "send-btn-icon": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-send-btn-icon}"
+      },
+      "send-btn-hover-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-send-btn-hover-bg}"
+      },
+      "send-btn-pressed-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-send-btn-pressed-bg}"
+      },
+      "slider-fill": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-slider-fill}"
+      },
+      "surface-translucent-sidebar": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-surface-translucent-sidebar}"
+      },
+      "login-bg-base": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-dark.itzel-login-bg-base}"
+      }
+    },
+    "itzel-light": {
+      "surface": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface}"
+      },
+      "surface-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-hsl}"
+      },
+      "surface-elevated": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-elevated}"
+      },
+      "surface-elevated-soft": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-elevated-soft}"
+      },
+      "surface-card-ivory": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-card-ivory}"
+      },
+      "surface-chip-alt": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-chip-alt}"
+      },
+      "surface-on-card": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-on-card}"
+      },
+      "switch-track-on": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-switch-track-on}"
+      },
+      "border-default": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-border-default}"
+      },
+      "border-default-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-border-default-hsl}"
+      },
+      "border-shadcn-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-border-shadcn-hsl}"
+      },
+      "border-transparent-mixed": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-border-transparent-mixed}"
+      },
+      "text-primary": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-text-primary}"
+      },
+      "text-primary-emphasis": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-text-primary-emphasis}"
+      },
+      "text-primary-inv": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-text-primary-inv}"
+      },
+      "text-primary-body-strong": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-text-primary-body-strong}"
+      },
+      "text-primary-hsl": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-text-primary-hsl}"
+      },
+      "text-secondary": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-text-secondary}"
+      },
+      "text-secondary-mid": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-text-secondary-mid}"
+      },
+      "accent-cta-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-accent-cta-bg}"
+      },
+      "accent-cta-bg-pure": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-accent-cta-bg-pure}"
+      },
+      "accent-emphasis": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-accent-emphasis}"
+      },
+      "accent-soft": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-accent-soft}"
+      },
+      "accent-hover": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-accent-hover}"
+      },
+      "accent-pure-cta-fg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-accent-pure-cta-fg}"
+      },
+      "background": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-background}"
+      },
+      "chat-input-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-chat-input-bg}"
+      },
+      "chat-input-border-focus": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-chat-input-border-focus}"
+      },
+      "chat-input-text": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-chat-input-text}"
+      },
+      "caret-accent": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-caret-accent}"
+      },
+      "confirm-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-confirm-bg}"
+      },
+      "confirm-btn-primary-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-confirm-btn-primary-bg}"
+      },
+      "confirm-btn-primary-text": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-confirm-btn-primary-text}"
+      },
+      "splash-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-splash-bg}"
+      },
+      "splash-text": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-splash-text}"
+      },
+      "splash-text-muted": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-splash-text-muted}"
+      },
+      "surface-translucent-main": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-translucent-main}"
+      },
+      "surface-translucent-overlay": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-translucent-overlay}"
+      },
+      "send-btn-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-send-btn-bg}"
+      },
+      "send-btn-icon": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-send-btn-icon}"
+      },
+      "send-btn-hover-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-send-btn-hover-bg}"
+      },
+      "send-btn-pressed-bg": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-send-btn-pressed-bg}"
+      },
+      "slider-fill": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-slider-fill}"
+      },
+      "surface-translucent-sidebar": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-surface-translucent-sidebar}"
+      },
+      "login-bg-base": {
+        "$type": "color",
+        "$value": "{reference.themes.itzel-light.itzel-login-bg-base}"
+      }
     }
   }
 }

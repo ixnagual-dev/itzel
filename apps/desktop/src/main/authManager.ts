@@ -15,6 +15,8 @@
 
 import { BrowserWindow, net, safeStorage, app, shell, powerMonitor } from 'electron';
 import crypto from 'node:crypto';
+// Modified for Itzel local startup, 2026-11-04.
+import { LOCAL_ONLY_DISTRIBUTION } from '@cindy/maker-shared/branding';
 import { createServer } from 'node:http';
 import type { AddressInfo } from 'node:net';
 import path from 'node:path';
@@ -4674,6 +4676,9 @@ export async function initialize(options: AuthInitializeOptions = {}): Promise<A
   // restoring the outgoing owner's credentials and turns from disk.
   if (isOwnerChangeShellPending()) {
     return snapshotLoggedOutAuthState(true);
+  }
+  if (LOCAL_ONLY_DISTRIBUTION && getActiveAppSession().mode !== 'local') {
+    return enterLocalMode();
   }
   // Local mode is a committed account-free session. It must win before any
   // persisted cloud refresh token is inspected or any auth network call runs.

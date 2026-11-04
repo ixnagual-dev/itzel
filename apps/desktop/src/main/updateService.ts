@@ -1,3 +1,5 @@
+// Modified for Itzel: upstream distribution updates are disabled, 2026-11-04.
+import { LOCAL_ONLY_DISTRIBUTION } from '@cindy/maker-shared/branding';
 /**
  * UpdateService — F2 + F3 (thin shell over unified-downloader).
  * ---------------------------------------------------------------------------
@@ -1137,7 +1139,7 @@ async function doCheckForUpdate(manifestOverride?: Manifest | null): Promise<Che
   const channelEpochAtStart = updateChannelEpoch;
   const channelEnableBetaAtStart = observedEnableBeta;
 
-  if (isVersionlessAppVersion(app.getVersion())) {
+  if (LOCAL_ONLY_DISTRIBUTION || isVersionlessAppVersion(app.getVersion())) {
     log.info('Versionless build (placeholder %s) — in-app update disabled', app.getVersion());
     currentStatus = 'idle';
     return 'idle';
@@ -1916,6 +1918,10 @@ interface RelaunchOptions {
 }
 
 async function executeRelaunch(theme: 'light' | 'dark', options?: RelaunchOptions): Promise<void> {
+  if (LOCAL_ONLY_DISTRIBUTION) {
+    log.info('Itzel updates are installed by rebuilding this distribution.');
+    return;
+  }
   if (isCindyPersonalRuntime()) return;
   try {
     await executeRelaunchUnguarded(theme, options);
@@ -2130,7 +2136,7 @@ function agentUpdateApplyBlockReason(): string | null {
 
 /** Build and installation blockers shared by every Agent-facing update entry. */
 function agentUpdateUnsupportedReason(): string | null {
-  if (!app.isPackaged || isDev() || isCindyPersonalRuntime() || isVersionlessAppVersion(app.getVersion())) {
+  if (LOCAL_ONLY_DISTRIBUTION || !app.isPackaged || isDev() || isCindyPersonalRuntime() || isVersionlessAppVersion(app.getVersion())) {
     return '此构建不支持应用内更新。';
   }
   return agentUpdateApplyBlockReason();
@@ -2305,7 +2311,7 @@ export function setAutoRelaunchOnIdleForAgent(enabled: boolean): boolean {
 export function initUpdateService(): void {
   // Observe the successful old-updater receipt before existing cleanup removes
   // it. Async and metadata-only; no effect on download/apply/rollback decisions.
-  if (process.platform === 'win32' && app.isPackaged && !isDev() && !isCindyPersonalRuntime()) {
+  if (!LOCAL_ONLY_DISTRIBUTION && process.platform === 'win32' && app.isPackaged && !isDev() && !isCindyPersonalRuntime()) {
     void syncWindowsVersionAfterUpdate({
       platform: process.platform,
       packaged: true,
@@ -2320,7 +2326,7 @@ export function initUpdateService(): void {
   // Best-effort cleanup of >7-day-old `cindy-update*`/`xdt-update*` leftovers in %TEMP%.
   // Counterpart to the Rust updater's own sweep — covers the case where the
   // user stays on the latest version and never triggers another updater run.
-  if (!isCindyPersonalRuntime()) sweepStaleUpdateTempDirs();
+  if (!LOCAL_ONLY_DISTRIBUTION && !isCindyPersonalRuntime()) sweepStaleUpdateTempDirs();
 
   ipcMain.on('update-relaunch', (event, theme: 'light' | 'dark') => {
     // Linux 分支会退出应用并触发 pkexec 系统授权,属于特权操作;
@@ -2558,7 +2564,7 @@ export function initUpdateService(): void {
     log.info('update-check-startup called');
     startupUpdateCheckInProgress = true;
     try {
-      if (isDev() || isCindyPersonalRuntime()) {
+      if (LOCAL_ONLY_DISTRIBUTION || isDev() || isCindyPersonalRuntime()) {
         return { hasUpdate: false, action: 'none' as const };
       }
 
@@ -2567,7 +2573,7 @@ export function initUpdateService(): void {
       // 快路径(下方 Step 1/2)。版本无关包与正式版同 userData,一台跑过正式版
       // 的机器 updates/ 里可能残留已下好的 patch,不在这里挡住会把 0.0.0 安装体
       // 启动即替换成线上版本。
-      if (isVersionlessAppVersion(app.getVersion())) {
+      if (LOCAL_ONLY_DISTRIBUTION || isVersionlessAppVersion(app.getVersion())) {
         log.info('Versionless build (placeholder %s) — skipping startup update flow', app.getVersion());
         return { hasUpdate: false, action: 'none' as const };
       }
@@ -2702,7 +2708,7 @@ export function initUpdateService(): void {
     }
   });
 
-  if (isDev() || isCindyPersonalRuntime()) {
+  if (LOCAL_ONLY_DISTRIBUTION || isDev() || isCindyPersonalRuntime()) {
     log.info('Dev mode — skipping background polling');
     return;
   }

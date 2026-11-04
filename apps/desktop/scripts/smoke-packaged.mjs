@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// Modified for Itzel distribution identity, 2026-11-04.
 
 /**
  * smoke-packaged.mjs — 打包产物的端到端 smoke 测试（release 后置验收）。
@@ -42,7 +43,7 @@ const DESKTOP_ROOT = path.resolve(__dirname, '..');
  * 区域化:产物基名按区域派生(cn/global 'Cindy' / dev 'CindyDev'),由调用方
  * (ci/lib.mjs runSmokeTest)经 --app-name= 传入覆盖,本默认值服务 global / 手跑。
  */
-const PACKAGED_APP_NAME = 'Cindy';
+const PACKAGED_APP_NAME = 'Itzel';
 
 // ── Arg parsing ───────────────────────────────────────────────────────────
 

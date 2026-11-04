@@ -1,3 +1,4 @@
+// Modified for Itzel desktop display branding, 2026-11-04.
 import { execSync, spawnSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import { createRequire } from 'node:module';
@@ -710,11 +711,11 @@ function applyMacPackagedDisplayName(buildPath: string, platform: string): void 
     // 否则 Electron 找不到 Helper app(见函数头 ⚠️)。
     const key = 'CFBundleDisplayName';
     // packager 必写该键,Set 即可;Add 兜底防未来 packager 行为变化。
-    const set = spawnSync('/usr/libexec/PlistBuddy', ['-c', `Set :${key} Cindy`, plistPath]);
+    const set = spawnSync('/usr/libexec/PlistBuddy', ['-c', `Set :${key} Itzel`, plistPath]);
     if (set.status !== 0) {
       const add = spawnSync('/usr/libexec/PlistBuddy', [
         '-c',
-        `Add :${key} string Cindy`,
+        `Add :${key} string Itzel`,
         plistPath,
       ]);
       if (add.status !== 0) {
@@ -1908,16 +1909,16 @@ const config: ForgeConfig = {
     //
     //   Windows / Linux 完全忽略此字段。
     extendInfo: {
-      NSMicrophoneUsageDescription: 'Cindy uses the microphone for voice input and screen recordings.',
-      NSAudioCaptureUsageDescription: 'Cindy captures computer audio for screen recordings and your connected remote desktop.',
+      NSMicrophoneUsageDescription: 'Itzel uses the microphone for voice input and screen recordings.',
+      NSAudioCaptureUsageDescription: 'Itzel captures computer audio for screen recordings and your connected remote desktop.',
       // agent 会话中访问受 TCC 保护的目录(桌面/文稿/下载)时，macOS 需要这些声明才能向
       // 用户展示授权弹窗；缺失时系统直接静默拒绝，不弹窗。
       NSDesktopFolderUsageDescription:
-        "Cindy's AI agent needs access to read and write files on your Desktop.",
+        "Itzel's AI agent needs access to read and write files on your Desktop.",
       NSDocumentsFolderUsageDescription:
-        "Cindy's AI agent needs access to read and write files in your Documents folder.",
+        "Itzel's AI agent needs access to read and write files in your Documents folder.",
       NSDownloadsFolderUsageDescription:
-        "Cindy's AI agent needs access to read and write files in your Downloads folder.",
+        "Itzel's AI agent needs access to read and write files in your Downloads folder.",
       // 通讯录插件(cindy-contacts)的 Node 工作进程经 osascript 向"通讯录"发 Apple Events
       // 导入名片; macOS 按 Cindy 应用授权。缺这条声明会不弹授权窗直接拒绝(-1743)。
       NSAppleEventsUsageDescription:
@@ -1941,7 +1942,7 @@ const config: ForgeConfig = {
         // 兜底(LSItemContentTypes 存在时会被忽略)。Owner 表示本 app 是该类型
         // 的归属方。⚠️ 仅打包生效,mac 真机轮验证。
         {
-          CFBundleTypeName: 'Cindy Cartridge',
+          CFBundleTypeName: 'Itzel Cartridge',
           CFBundleTypeRole: 'Viewer',
           LSHandlerRank: 'Owner',
           LSItemContentTypes: [`${CINDY_UTI_PREFIX}.cindy`],
@@ -1956,7 +1957,7 @@ const config: ForgeConfig = {
       UTExportedTypeDeclarations: [
         {
           UTTypeIdentifier: `${CINDY_UTI_PREFIX}.cindy`,
-          UTTypeDescription: 'Cindy Cartridge',
+          UTTypeDescription: 'Itzel Cartridge',
           UTTypeConformsTo: ['public.data'],
           UTTypeTagSpecification: {
             'public.filename-extension': ['cindy'],
@@ -1965,7 +1966,7 @@ const config: ForgeConfig = {
         },
         {
           UTTypeIdentifier: `${CINDY_UTI_PREFIX}.cshare`,
-          UTTypeDescription: 'Cindy Session Share',
+          UTTypeDescription: 'Itzel Session Share',
           UTTypeConformsTo: ['public.data'],
           UTTypeTagSpecification: {
             'public.filename-extension': ['cshare'],
@@ -1978,14 +1979,14 @@ const config: ForgeConfig = {
     // helper bundles also need the usage description for macOS TCC to register
     // the packaged app correctly in Privacy & Security > Microphone.
     extendHelperInfo: {
-      NSMicrophoneUsageDescription: 'Cindy uses the microphone for voice input and screen recordings.',
-      NSAudioCaptureUsageDescription: 'Cindy captures computer audio for screen recordings and your connected remote desktop.',
+      NSMicrophoneUsageDescription: 'Itzel uses the microphone for voice input and screen recordings.',
+      NSAudioCaptureUsageDescription: 'Itzel captures computer audio for screen recordings and your connected remote desktop.',
       NSDesktopFolderUsageDescription:
-        "Cindy's AI agent needs access to read and write files on your Desktop.",
+        "Itzel's AI agent needs access to read and write files on your Desktop.",
       NSDocumentsFolderUsageDescription:
-        "Cindy's AI agent needs access to read and write files in your Documents folder.",
+        "Itzel's AI agent needs access to read and write files in your Documents folder.",
       NSDownloadsFolderUsageDescription:
-        "Cindy's AI agent needs access to read and write files in your Downloads folder.",
+        "Itzel's AI agent needs access to read and write files in your Downloads folder.",
     },
     // chat-data-localization F1：drizzle SQL migration 文件需要随包发出，
     // main 通过 process.resourcesPath/drizzle 读取。dev 模式 main 走源码路径，

@@ -1,4 +1,6 @@
 import { randomUUID } from 'node:crypto';
+// Modified for Itzel's onboarding identity, 2026-11-04.
+import { BRAND_NAME } from '@cindy/maker-shared/branding';
 import { and, eq } from 'drizzle-orm';
 import {
   activeOwnerScopeKey,
@@ -333,6 +335,7 @@ export function queueBotInvitation(
         : 'Without user background, introduce the help that fits your role without assuming what the user is working on.';
       const message = [
         `The user has just invited you. Write the entire greeting in ${locale}, even if your identity or these instructions use another language.`,
+        `The application hosting this teammate is ${BRAND_NAME}. If you name the application in your greeting, call it ${BRAND_NAME}.`,
         'Use your own voice and your current identity and memory. Give a brief, natural greeting as an ongoing AI teammate in a few short sentences, using paragraph breaks where they read naturally. Finish with at most one easy question.',
         'Choose one or two concrete ways you can help that fit your own role and responsibilities, rather than listing general capabilities. Mention learning or memory only when directly useful to this introduction and supported by your current memory settings.',
         help,

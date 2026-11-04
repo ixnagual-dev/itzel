@@ -1,5 +1,7 @@
 import { emitSessionCreated } from './sessionCreatedBroadcast.js';
 import type { RoutineModel } from '@cindy/maker-scheduler';
+// Modified for Itzel's default companion name, 2026-11-04.
+import { BRAND_NAME } from '@cindy/maker-shared/branding';
 import { todoAccess } from '../../maker-ipc/botTodoAccess.js';
 import { botLinkedProjectAccess } from '../../maker-ipc/botLinkedProjects.js';
 import type { TodoPatch } from '@cindy/maker-shared/teammate-todo';
@@ -1630,7 +1632,7 @@ async function provisionDefaultBotForList(
         const history = await client.drizzle.select({ id: sessions.id }).from(sessions).where(eq(sessions.source, 'bot')).limit(1);
         return history.length > 0;
       },
-      create: () => createBotProfile({ id: 'cindy-default', name: 'Cindy', templateId: 'cindy',
+      create: () => createBotProfile({ id: 'cindy-default', name: BRAND_NAME, templateId: 'cindy',
         avatar: BOT_TEMPLATE_PRESET_AVATARS.cindy, identitySource: CINDY_DEFAULT_IDENTITY,
         prepareInvitation: true, welcomeContext, locale }),
     });

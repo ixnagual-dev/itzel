@@ -1,0 +1,58 @@
+// Original Itzel theme, 2026-11-04. Values generated from DTCG sources.
+import type { Theme } from '../types';
+import { cindyLight } from './cindy-light';
+import logo from '../../assets/itzel-logotype-light.svg';
+// BEGIN GENERATED DS-8: theme
+const GENERATED_OVERRIDES = {
+  "surface": "#f1f6f2",
+  "surface-hsl": "131.99999999999994 21.739130434782677% 95.49019607843137%",
+  "surface-elevated": "#ffffff",
+  "surface-elevated-soft": "#e7f0e9",
+  "surface-card-ivory": "#ffffff",
+  "surface-chip-alt": "#e7f0e9",
+  "surface-on-card": "#f1f6f2",
+  "switch-track-on": "#176c50",
+  "border-default": "#ceded3",
+  "border-default-hsl": "138.74999999999994 19.51219512195122% 83.92156862745098%",
+  "border-shadcn-hsl": "138.74999999999994 19.51219512195122% 83.92156862745098%",
+  "border-transparent-mixed": "#ceded3",
+  "text-primary": "#172c23",
+  "text-primary-emphasis": "#172c23",
+  "text-primary-inv": "#f1f6f2",
+  "text-primary-body-strong": "#172c23",
+  "text-primary-hsl": "154.2857142857143 31.343283582089548% 13.137254901960786%",
+  "text-secondary": "#526b5d",
+  "text-secondary-mid": "#526b5d",
+  "accent-cta-bg": "#176c50",
+  "accent-cta-bg-pure": "#176c50",
+  "accent-emphasis": "#176c50",
+  "accent-soft": "#0e4834",
+  "accent-hover": "#12583f",
+  "accent-pure-cta-fg": "#ffffff",
+  "background": "131.99999999999994 21.739130434782677% 95.49019607843137%",
+  "chat-input-bg": "#ffffff",
+  "chat-input-border-focus": "#176c50",
+  "chat-input-text": "#172c23",
+  "caret-accent": "#176c50",
+  "confirm-bg": "#ffffff",
+  "confirm-btn-primary-bg": "#176c50",
+  "confirm-btn-primary-text": "#ffffff",
+  "splash-bg": "#f1f6f2",
+  "splash-text": "#172c23",
+  "splash-text-muted": "#526b5d",
+  "surface-translucent-main": "#ffffff",
+  "surface-translucent-overlay": "#ffffff",
+  "send-btn-bg": "#176c50",
+  "send-btn-icon": "#ffffff",
+  "send-btn-hover-bg": "#12583f",
+  "send-btn-pressed-bg": "#0e4834",
+  "slider-fill": "#176c50",
+  "surface-translucent-sidebar": "#f1f6f2",
+  "login-bg-base": "#f1f6f2",
+} as const;
+// END GENERATED DS-8: theme
+export const itzelLight: Theme = {
+  id: 'itzel-light', name: 'Itzel Light', type: 'light',
+  colors: { ...cindyLight.colors, ...GENERATED_OVERRIDES },
+  brand: { logo: { src: logo } },
+};

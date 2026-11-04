@@ -1,3 +1,6 @@
+// Modified for Itzel's default theme family, 2026-11-04.
+import { itzelLight } from './builtin/itzel-light';
+import { itzelDark } from './builtin/itzel-dark';
 import { atomOneLight } from './builtin/atom-one-light';
 import { defaultDark } from './builtin/default-dark';
 import { defaultLight } from './builtin/default-light';
@@ -25,14 +28,15 @@ export interface ThemeFamily {
   dark: Theme | null;
 }
 
-export const DEFAULT_FAMILY_ID = 'cindy';
+export const DEFAULT_FAMILY_ID = 'itzel';
 
 // 顺序就是设置 dropdown 的显示顺序:Cindy 作为新用户默认主题置顶,
 // 之后按 light→dark 双变体优先, 再列 dark-only 家族。
 const BUILTIN_FAMILIES: ThemeFamily[] = [
+  { id: 'itzel', name: 'Itzel', light: itzelLight, dark: itzelDark },
   {
     id: 'cindy',
-    name: 'Cindy',
+    name: 'Classic Contrast',
     light: cindyLight,
     dark: cindyDark,
   },

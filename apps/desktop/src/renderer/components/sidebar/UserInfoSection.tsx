@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
+// Modified for Itzel's local workspace, 2026-11-04.
+import { BRAND_NAME, LOCAL_ONLY_DISTRIBUTION } from '@cindy/maker-shared/branding';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -100,7 +102,7 @@ export function UserInfoSection({ isCollapsed, onOpenUpdateNotice }: UserInfoSec
   // 头像地址变化(设置页改头像 / 服务端资料更新)时重置加载失败标记,
   // 让新地址有机会渲染,而不是永远停在首字母兜底。
   const isLocal = mode === 'local';
-  const displayName = user?.name ?? (isLocal ? t('settings.userProfile.local.name') : '');
+  const displayName = user?.name ?? (isLocal ? BRAND_NAME : '');
   const moreLabel = t('sidebar.user.moreLabel', { name: displayName });
   const avatarUrl = user?.avatar ?? null;
   useEffect(() => {
@@ -308,7 +310,7 @@ export function UserInfoSection({ isCollapsed, onOpenUpdateNotice }: UserInfoSec
         savedAccounts.some((account) => !account.isCurrent) ? (
           <DropdownMenuSeparator />
         ) : null}
-        {mode === 'local' ? (
+        {mode === 'local' && !LOCAL_ONLY_DISTRIBUTION ? (
           <DropdownMenuItem
             disabled={addingAccount}
             onSelect={() => void openAddAccount()}
@@ -340,7 +342,7 @@ export function UserInfoSection({ isCollapsed, onOpenUpdateNotice }: UserInfoSec
     navigate('/settings?tab=remote-control&section=devices');
   };
 
-  const mobileDownloadEntry = (
+  const mobileDownloadEntry = LOCAL_ONLY_DISTRIBUTION ? null : (
     <Tip text={t('sidebar.user.downloadMobile')} side="right">
       <button
         ref={mobileDownloadButtonRef}

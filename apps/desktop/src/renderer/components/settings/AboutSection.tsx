@@ -11,6 +11,8 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+// Modified for Itzel: local distribution information, 2026-11-04.
+import { LOCAL_ONLY_DISTRIBUTION } from '@cindy/maker-shared/branding';
 import { useTranslation } from 'react-i18next';
 import { ExternalLink } from 'lucide-react';
 
@@ -350,7 +352,7 @@ export function AboutSection() {
           'border border-[var(--settings-theme-card-border)]',
         )}
       >
-        {CURRENT_CINDY_REGION === 'cn' && (
+        {(LOCAL_ONLY_DISTRIBUTION || CURRENT_CINDY_REGION === 'cn') && (
           <>
             <InfoRow
               label={t('settings.about.appVersionLabel')}
@@ -360,10 +362,10 @@ export function AboutSection() {
             <Divider />
           </>
         )}
-        <AutoUpdateToggleRow />
-        <Divider />
-        <AnalyticsToggleRow />
-        <Divider />
+        {!LOCAL_ONLY_DISTRIBUTION && <AutoUpdateToggleRow />}
+        {!LOCAL_ONLY_DISTRIBUTION && <Divider />}
+        {!LOCAL_ONLY_DISTRIBUTION && <AnalyticsToggleRow />}
+        {!LOCAL_ONLY_DISTRIBUTION && <Divider />}
         <AgentVersionsRows />
         <DebugLogToggleRow />
         <Divider />
@@ -371,23 +373,35 @@ export function AboutSection() {
           <OpenLogsRow />
         </div>
         <Divider />
-        <CrashAutoUploadToggleRow />
-        <Divider />
-        <div id="settings-search-settings-about-logUpload-uploadLabel">
+        {!LOCAL_ONLY_DISTRIBUTION && <CrashAutoUploadToggleRow />}
+        {!LOCAL_ONLY_DISTRIBUTION && <Divider />}
+        {!LOCAL_ONLY_DISTRIBUTION && <div id="settings-search-settings-about-logUpload-uploadLabel">
           <UploadLogsRow />
-        </div>
-        <Divider />
+        </div>}
+        {!LOCAL_ONLY_DISTRIBUTION && <Divider />}
         <LegalLinksRows />
       </div>
 
       {/* 存储空间(媒体总仓占用 / 清理 / 体检) */}
-      <SocialLinksPanel />
+      {!LOCAL_ONLY_DISTRIBUTION && <SocialLinksPanel />}
     </div>
   );
 }
 
 export function LegalLinksRows() {
   const { t } = useTranslation();
+
+  if (LOCAL_ONLY_DISTRIBUTION) {
+    return (
+      <>
+        <LegalLinkRow label={t('settings.about.itzel.source')} url="https://github.com/ixnagual-dev/itzel" />
+        <Divider />
+        <LegalLinkRow label={t('settings.about.itzel.license')} url="https://github.com/ixnagual-dev/itzel/blob/itzel/LICENSE" />
+        <Divider />
+        <LegalLinkRow label={t('settings.about.itzel.attribution')} url="https://github.com/makecindy/cindy" />
+      </>
+    );
+  }
 
   return (
     <>

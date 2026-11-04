@@ -1,3 +1,4 @@
+// Modified for Itzel default-family behavior, 2026-11-04. Existing tests retain cross-window and saved-theme coverage.
 // @vitest-environment jsdom
 
 /**
@@ -68,7 +69,7 @@ describe('useTheme 跨窗口主题同步(D2-3)', () => {
     localStorage.setItem('theme', 'dark');
     renderHook(() => useTheme(), { wrapper });
 
-    expect(applyVibrancyMock).toHaveBeenCalledWith('cindy', true, 'dark', true, false);
+    expect(applyVibrancyMock).toHaveBeenCalledWith('itzel', true, 'dark', true, false);
   });
 
   it('utility 窗口复用 ThemeProvider 时不写全局窗口材质快照', () => {
@@ -79,32 +80,33 @@ describe('useTheme 跨窗口主题同步(D2-3)', () => {
   });
 
   it('把单变体家族标记为不随系统模式切换', () => {
+    localStorage.setItem('theme', 'system');
     localStorage.setItem('theme.familyId', 'eclipse');
     renderHook(() => useTheme(), { wrapper });
 
     expect(applyVibrancyMock).toHaveBeenCalledWith('eclipse', true, 'system', false, false);
   });
 
-  it('系统深色下真首启按亮色门的实际主题上报 backing，门结束后恢复深色', () => {
+  it('reports the initial light cover then restores the Itzel obsidian default', () => {
     systemPrefersDark = true;
     expect(getInitialThemeVariant().theme.type).toBe('light');
 
     renderHook(() => useTheme(), { wrapper });
-    expect(applyVibrancyMock).toHaveBeenLastCalledWith('cindy', false, 'system', true, false);
+    expect(applyVibrancyMock).toHaveBeenLastCalledWith('itzel', false, 'dark', true, false);
 
     act(() => {
       endLoginFirstLaunchLightGate();
     });
-    expect(applyVibrancyMock).toHaveBeenLastCalledWith('cindy', true, 'system', true, false);
+    expect(applyVibrancyMock).toHaveBeenLastCalledWith('itzel', true, 'dark', true, false);
   });
 
   it('其他窗口切 theme → storage 事件 → 本窗口 theme state 跟随并重应用', () => {
     const { result } = renderHook(() => useTheme(), { wrapper });
-    expect(result.current.theme).toBe('system');
-    act(() => {
-      dispatchStorage('theme', 'dark');
-    });
     expect(result.current.theme).toBe('dark');
+    act(() => {
+      dispatchStorage('theme', 'light');
+    });
+    expect(result.current.theme).toBe('light');
     expect(themeService.applyTheme).toHaveBeenCalled();
   });
 
@@ -116,7 +118,7 @@ describe('useTheme 跨窗口主题同步(D2-3)', () => {
     await act(async () => {
       root.dataset.wallpaperActive = 'true';
     });
-    expect(applyVibrancyMock).toHaveBeenLastCalledWith('cindy', true, 'dark', true, true);
+    expect(applyVibrancyMock).toHaveBeenLastCalledWith('itzel', true, 'dark', true, true);
 
     const count = applyVibrancyMock.mock.calls.length;
     await act(async () => {
@@ -127,11 +129,11 @@ describe('useTheme 跨窗口主题同步(D2-3)', () => {
     act(() => {
       result.current.setTheme('light');
     });
-    expect(applyVibrancyMock).toHaveBeenLastCalledWith('cindy', false, 'light', true, true);
+    expect(applyVibrancyMock).toHaveBeenLastCalledWith('itzel', false, 'light', true, true);
     await act(async () => {
       delete root.dataset.wallpaperActive;
     });
-    expect(applyVibrancyMock).toHaveBeenLastCalledWith('cindy', false, 'light', true, false);
+    expect(applyVibrancyMock).toHaveBeenLastCalledWith('itzel', false, 'light', true, false);
 
     unmount();
     applyVibrancyMock.mockClear();
@@ -145,12 +147,12 @@ describe('useTheme 跨窗口主题同步(D2-3)', () => {
     localStorage.setItem('theme', 'dark');
     document.documentElement.dataset.wallpaperActive = 'true';
     renderHook(() => useTheme(), { wrapper });
-    expect(applyVibrancyMock).toHaveBeenLastCalledWith('cindy', true, 'dark', true, true);
+    expect(applyVibrancyMock).toHaveBeenLastCalledWith('itzel', true, 'dark', true, true);
   });
 
-  it('无存档时默认 cindy,其他窗口切 familyId=default 后本窗口跟随', () => {
+  it('无存档时默认 itzel,其他窗口切 familyId=default 后本窗口跟随', () => {
     const { result } = renderHook(() => useTheme(), { wrapper });
-    expect(result.current.familyId).toBe('cindy');
+    expect(result.current.familyId).toBe('itzel');
     act(() => {
       dispatchStorage('theme.familyId', 'default');
     });

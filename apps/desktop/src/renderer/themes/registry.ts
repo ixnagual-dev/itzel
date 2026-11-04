@@ -1,3 +1,6 @@
+// Modified for Itzel's default theme family, 2026-11-04.
+import { itzelLight } from './builtin/itzel-light';
+import { itzelDark } from './builtin/itzel-dark';
 import { atomOneLight } from './builtin/atom-one-light';
 import { defaultDark } from './builtin/default-dark';
 import { defaultLight } from './builtin/default-light';
@@ -26,6 +29,8 @@ import {
 import type { Theme, ThemeType } from './types';
 
 export const builtinThemes: Record<string, Theme> = {
+  [itzelLight.id]: itzelLight,
+  [itzelDark.id]: itzelDark,
   [defaultLight.id]: defaultLight,
   [atomOneLight.id]: atomOneLight,
   [solarizedLight.id]: solarizedLight,

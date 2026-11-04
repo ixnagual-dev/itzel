@@ -1,0 +1,22 @@
+<!-- Original Itzel decorative artwork, 2026-11-04. Apache-2.0. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="2560" height="1600" viewBox="0 0 2560 1600">
+  <defs>
+    <radialGradient id="glow" cx="76%" cy="26%" r="83%">
+      <stop stop-color="#315749"/>
+      <stop offset=".48" stop-color="#182d25"/>
+      <stop offset="1" stop-color="#0c1512"/>
+    </radialGradient>
+    <linearGradient id="facet" x2="1" y2="1">
+      <stop stop-color="#79d9b1" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#79d9b1" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#glow)" d="M0 0h2560v1600H0z"/>
+  <g fill="none" stroke="#79d9b1" stroke-opacity=".12">
+    <path d="m1880 -420 1220 1220-1220 1220L660 800Z"/>
+    <path d="m1880 -100 900 900-900 900-900-900Z"/>
+    <path d="m1880 220 580 580-580 580-580-580Z"/>
+  </g>
+  <path fill="url(#facet)" d="m1880 220 580 580-580 580-150-150 430-430-430-430Z"/>
+  <path fill="#79d9b1" fill-opacity=".05" d="m-200 1600 900-900 900 900Z"/>
+</svg>

@@ -1,8 +1,8 @@
 {
   "name": "desktop",
-  "productName": "Cindy",
+  "productName": "Itzel",
   "version": "0.0.0",
-  "description": "Cindy desktop client",
+  "description": "Itzel \u2014 your local AI workspace",
   "main": ".vite/build/index.js",
   "private": true,
   "scripts": {
@@ -45,8 +45,7 @@
     "export:login-callback-template": "tsx scripts/export-login-callback-template.ts"
   },
   "author": {
-    "name": "XD Inc.",
-    "email": "feedback@cindy.app"
+    "name": "Itzel contributors"
   },
   "license": "Apache-2.0",
   "dependencies": {
@@ -235,5 +234,6 @@
     "unified": "11.0.5",
     "vite": "^6.4.3",
     "vitest": "^3.2.4"
-  }
+  },
+  "//": "Modified for the independent Itzel fork, 2026-11-04. Original attribution is retained in NOTICE."
 }

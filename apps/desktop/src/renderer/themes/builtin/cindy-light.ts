@@ -1,3 +1,4 @@
+// Modified for Itzel: inherited theme display label, 2026-11-04.
 import type { Theme } from '../types';
 import cindyLogoLight from '../../assets/cindy-logo-light.png';
 import { CINDY_ACRYLIC_WINDOW_BACKING } from '../../../shared/windowBackdrop';
@@ -197,7 +198,7 @@ const GENERATED_OVERRIDES = {
 
 export const cindyLight: Theme = {
   id: 'cindy-light',
-  name: 'CINDY Light',
+  name: 'Classic Contrast Light',
   type: 'light',
   colors: {
     ...GENERATED_OVERRIDES,

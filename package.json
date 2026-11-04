@@ -1,19 +1,18 @@
 {
-  "name": "cindy",
+  "name": "itzel",
   "private": true,
-  "description": "Cindy open-source client monorepo — desktop, mobile, and shared packages",
+  "description": "Itzel \u2014 your local AI workspace",
   "license": "Apache-2.0",
   "author": {
-    "name": "XD Inc.",
-    "email": "feedback@cindy.app"
+    "name": "Itzel contributors"
   },
-  "homepage": "https://cindy.app",
+  "homepage": "https://github.com/ixnagual-dev/itzel",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/makecindy/cindy.git"
+    "url": "git+https://github.com/ixnagual-dev/itzel.git"
   },
   "bugs": {
-    "url": "https://github.com/makecindy/cindy/issues"
+    "url": "https://github.com/ixnagual-dev/itzel/issues"
   },
   "engines": {
     "node": ">=22.12",
@@ -154,7 +153,10 @@
     "test:peer-transfer": "node scripts/peer-transfer-acceptance.mjs",
     "ci:scheduler-guard": "node scripts/scheduler-ci-guard.mjs",
     "pctx": "node packages/project-context/dist/cli.js",
-    "pctx:build": "pnpm --filter project-context build"
+    "pctx:build": "pnpm --filter project-context build",
+    "start": "npx --yes --package=pnpm@10.33.2 pnpm run start:itzel",
+    "branding:export": "python3 scripts/itzel-branding.py",
+    "start:itzel": "node scripts/desktop-restart-runner.mjs --wait-ready --region=global --isolated=itzel-local"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"
@@ -164,5 +166,6 @@
     "@types/ws": "^8.18.1",
     "vitest": "^3.2.4",
     "ws": "^8.18.3"
-  }
+  },
+  "//": "Modified for the independent Itzel fork, 2026-11-04. Original attribution is retained in NOTICE."
 }

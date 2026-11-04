@@ -31,12 +31,16 @@ import { createPiKernelManager, type PiKernelManager } from './pi-kernel-manager
 import path from 'node:path';
 import fs from 'node:fs';
 import { app, BrowserWindow } from 'electron';
+// Modified for Itzel local CLI selection, 2026-11-04.
+import { LOCAL_ONLY_DISTRIBUTION } from '@cindy/maker-shared/branding';
 
 import { createBinaryProvisioner } from './factory.js';
 import { isBinaryVersionNotOlder, normalizeBinaryVersion, probeBinaryVersion } from './binary-version-probe.js';
 import { findDevBinary } from './dev-fallback.js';
 import {
   findCachedLinuxRuntimeFallbackBinary,
+  findSystemBinaryAsync,
+  findSystemPiBinaryAsync,
   findUsableLinuxRuntimeFallbackBinary,
   prepareLinuxRuntimeFallback,
 } from './linux-runtime-fallback.js';
@@ -324,6 +328,11 @@ export function getCachedBinaryStatus(kind: AgentBinaryKind): CachedBinaryStatus
     }
   }
 
+  // Itzel resolves local CLIs asynchronously in prepare, never during a UI read.
+  if (LOCAL_ONLY_DISTRIBUTION && process.platform === 'linux') {
+    return { binaryReady: false };
+  }
+
   // dev:优先查仓库本地 runtime(apps/<devBinDir>/<platform>/<devBinaryName>)。
   if (!app.isPackaged) {
     const devPath = findDevBinary({
@@ -371,6 +380,17 @@ export async function prepare(
 ): Promise<PrepareResult> {
   const cfg = CONFIG[kind];
   const { step, totalSteps, broadcastProgress = true, broadcastFailure = true } = opts;
+
+  if (LOCAL_ONLY_DISTRIBUTION && process.platform === 'linux') {
+    const binaryPath = kind === 'pi'
+      ? await findSystemPiBinaryAsync(opts.signal)
+      : await findSystemBinaryAsync(kind, opts.signal, true);
+    if (!binaryPath) {
+      return { ready: false, error: `Itzel requires a supported ${kind} CLI on PATH. Check the version in tools/${kind === 'codex' ? 'codex-package' : kind === 'pi' ? 'pi' : 'claude'}/latest.json.`, downloaded: false };
+    }
+    lastReadyPath.set(kind, binaryPath);
+    return { ready: true, path: binaryPath, downloaded: false };
+  }
 
   if (kind === 'pi') {
     try {
@@ -713,6 +733,7 @@ export async function peekNeedsDownload(
   kind: AgentBinaryKind,
   opts: Pick<PrepareOpts, 'checkForUpdates'> = {},
 ): Promise<boolean> {
+  if (LOCAL_ONLY_DISTRIBUTION && process.platform === 'linux') return false;
   // dev 模式永不下载 (findDevBinary 命中 / 缺失都不走 OSS)
   if (!app.isPackaged) return false;
   opts = { ...opts, checkForUpdates: resolveUpdateCheck(kind, opts.checkForUpdates) };

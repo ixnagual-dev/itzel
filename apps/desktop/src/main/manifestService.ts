@@ -1,3 +1,5 @@
+// Modified for Itzel: upstream distribution updates are disabled, 2026-11-04.
+import { LOCAL_ONLY_DISTRIBUTION } from '@cindy/maker-shared/branding';
 /**
  * manifestService.ts
  * ---------------------------------------------------------------------------
@@ -173,7 +175,7 @@ export async function fetchManifest(
   timeoutMs?: number,
   signal?: AbortSignal,
 ): Promise<Manifest | null> {
-  if (isDev()) return null;
+  if (LOCAL_ONLY_DISTRIBUTION || isDev()) return null;
   if (signal?.aborted) return null;
 
   const channel = currentUpdateChannel();
