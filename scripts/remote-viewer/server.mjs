@@ -59,7 +59,6 @@ async function connect() {
     });
     await new Promise((resolve, reject) => { target.once('open', resolve); target.once('error', reject); });
     await send('Page.enable');
-    await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
     await send('Page.startScreencast', { format: 'jpeg', quality: 75, maxWidth: 1600, maxHeight: 1000, everyNthFrame: 1 });
     broadcast({ type: 'status', text: 'Connected to Itzel' });
     console.log('Itzel viewer connected to the app.');
@@ -113,8 +112,9 @@ setInterval(() => {
   void connect();
   if (!ready() || !viewers.size || capturing || Date.now() - lastFrameAt < 2000) return;
   capturing = true;
-  void send('Page.captureScreenshot', { format: 'jpeg', quality: 75 }).then(result => {
-    lastFrame = { type: 'frame', data: result.data, width: 1280, height: 900 };
+  void Promise.all([send('Page.captureScreenshot', { format: 'jpeg', quality: 75 }), send('Page.getLayoutMetrics')]).then(([result, metrics]) => {
+    const viewport = metrics.cssLayoutViewport ?? metrics.layoutViewport;
+    lastFrame = { type: 'frame', data: result.data, width: viewport.clientWidth, height: viewport.clientHeight };
     lastFrameAt = Date.now(); broadcast(lastFrame);
   }).catch(() => {}).finally(() => { capturing = false; });
 }, 1500).unref();

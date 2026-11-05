@@ -41,8 +41,14 @@ viewer toolbar, and choose **Insert text**; **Enter** sends an Enter key.
 ## Terminal launcher
 
 On Linux, link `scripts/itzel` into a directory on your PATH, for example
-`~/.local/bin/itzel`. Run `itzel` to start the background services and open the
-browser interface. `itzel start` prints the address without opening a browser;
+`~/.local/bin/itzel`. From a desktop terminal, `itzel` opens the native
+Electron app. `itzel desktop` explicitly selects the native window; `itzel web`
+opens the browser viewer. `itzel remote` moves the app back onto its private
+virtual display. Switching displays restarts the app using the same saved profile,
+so wait for running agent work to finish first. The viewer follows the main window
+in either mode and does not change its size or layout.
+
+`itzel start` starts the saved display mode and prints the address;
 `itzel status` and `itzel stop` manage the same services. On a checkout without
 the remote services, `itzel` uses the normal `npm start` desktop launcher.
 

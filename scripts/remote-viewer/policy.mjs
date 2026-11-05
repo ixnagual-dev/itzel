@@ -29,8 +29,8 @@ export function inputCommand(event) {
     return ['Input.insertText', { text: event.text }];
   }
   if (event.type === 'pointer' && ['mousePressed', 'mouseReleased', 'mouseMoved', 'mouseWheel'].includes(event.action) &&
-      Number.isFinite(event.x) && event.x >= 0 && event.x <= 1920 &&
-      Number.isFinite(event.y) && event.y >= 0 && event.y <= 1200 &&
+      Number.isFinite(event.x) && event.x >= 0 && event.x <= 16384 &&
+      Number.isFinite(event.y) && event.y >= 0 && event.y <= 16384 &&
       ['none', 'left', 'middle', 'right'].includes(event.button) && integer(event.buttons, 0, 7)) {
     const params = { type: event.action, x: event.x, y: event.y, button: event.button, buttons: event.buttons };
     if (event.action === 'mousePressed' || event.action === 'mouseReleased') params.clickCount = 1;

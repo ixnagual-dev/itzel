@@ -32,3 +32,7 @@ test('human inputs map to fixed CDP commands and discard caller methods or extra
     assert.throws(() => inputCommand(candidate));
   }
 });
+test('pointer events reach controls beyond the virtual display on larger native windows', () => {
+  assert.deepEqual(inputCommand({ type: 'pointer', action: 'mousePressed', x: 2200, y: 1400, button: 'left', buttons: 1 }),
+    ['Input.dispatchMouseEvent', { type: 'mousePressed', x: 2200, y: 1400, button: 'left', buttons: 1, clickCount: 1 }]);
+});

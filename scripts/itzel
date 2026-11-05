@@ -6,9 +6,11 @@ itzel_project_root=$(cd -- "$(dirname -- "$itzel_script_path")/.." && pwd)
 
 itzel_usage() {
   cat <<'EOF'
-Usage: itzel [open|start|status|stop]
+Usage: itzel [desktop|web|remote|start|status|stop]
 
-  open     Start Itzel and open its browser interface (default)
+  desktop  Open the native Electron app (default from a desktop terminal)
+  web      Open the browser viewer for the same app
+  remote   Move Itzel to its private virtual display
   start    Start Itzel in the background and print its address
   status   Show the background-service status
   stop     Stop Itzel and its browser viewer
@@ -23,9 +25,37 @@ itzel_url() {
     python3 -c 'import shlex,sys; entries=shlex.split(sys.stdin.read()); print(next((v.split("=",1)[1] for v in entries if v.startswith("ITZEL_VIEWER_ORIGIN=")),""))'
 }
 
-case ${1:-open} in
+itzel_display_mode() {
+  local itzel_mode_dir="${XDG_STATE_HOME:-$HOME/.local/state}/itzel"
+  local itzel_previous_mode=remote
+  [[ ! -f $itzel_mode_dir/display-mode ]] || itzel_previous_mode=$(<"$itzel_mode_dir/display-mode")
+  mkdir -p -- "$itzel_mode_dir"
+  printf '%s\n' "$1" > "$itzel_mode_dir/display-mode"
+  if [[ $itzel_previous_mode != "$1" ]]; then
+    systemctl --user restart itzel-desktop.service
+  else
+    systemctl --user start itzel-desktop.service
+  fi
+  systemctl --user start itzel-viewer.service
+}
+
+itzel_action=${1:-open}
+if [[ $itzel_action == open ]]; then
+  if [[ -n ${DISPLAY:-} || -n ${WAYLAND_DISPLAY:-} ]]; then itzel_action=desktop; else itzel_action=start; fi
+fi
+
+case $itzel_action in
   -h|--help|help) itzel_usage ;;
-  open|start)
+  desktop|remote)
+    if [[ $(systemctl --user show itzel-viewer.service --property=LoadState --value 2>/dev/null) != loaded ]]; then
+      cd -- "$itzel_project_root"
+      exec npm start
+    fi
+    itzel_display_mode "$itzel_action"
+    if [[ $itzel_action == desktop ]]; then printf 'Opening the native Itzel app on your desktop.\n';
+    else printf 'Itzel remote viewer: %s\n' "$(itzel_url)"; fi
+    ;;
+  web|start)
     if [[ $(systemctl --user show itzel-viewer.service --property=LoadState --value 2>/dev/null) != loaded ]]; then
       cd -- "$itzel_project_root"
       exec npm start
@@ -37,7 +67,7 @@ case ${1:-open} in
       exit 0
     fi
     printf 'Itzel: %s\n' "$itzel_address"
-    if [[ ${1:-open} == open && ( -n ${DISPLAY:-} || -n ${WAYLAND_DISPLAY:-} ) ]] && command -v xdg-open >/dev/null; then
+    if [[ $itzel_action == web && ( -n ${DISPLAY:-} || -n ${WAYLAND_DISPLAY:-} ) ]] && command -v xdg-open >/dev/null; then
       nohup xdg-open "$itzel_address" >/dev/null 2>&1 < /dev/null &
     fi
     ;;
