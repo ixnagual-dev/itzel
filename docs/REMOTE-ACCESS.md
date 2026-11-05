@@ -34,9 +34,12 @@ to the configured account and validates WebSocket origins. Direct loopback probe
 are permitted for local health checks.
 
 The work device must be connected to the same tailnet and allowed to reach this
-port. Open the HTTPS address in a browser. Click the interface to interact. For
-paste or mobile input, focus the desired field inside Itzel, enter text in the
-viewer toolbar, and choose **Insert text**; **Enter** sends an Enter key.
+port. Open the HTTPS address in a browser. Click the interface to interact. On a
+computer, paste text directly into the focused field with Ctrl+V or Cmd+V. For
+mobile input, focus the desired field inside Itzel, enter text in the viewer
+toolbar, and choose **Insert text**; **Enter** sends an Enter key. **Actual size**
+keeps the app's real proportions and lets you scroll around the image;
+**Fit screen** scales the whole image to the available space.
 
 ## Terminal launcher
 
@@ -44,7 +47,9 @@ On Linux, link `scripts/itzel` into a directory on your PATH, for example
 `~/.local/bin/itzel`. From a desktop terminal, `itzel` opens the native
 Electron app. `itzel desktop` explicitly selects the native window; `itzel web`
 opens the browser viewer. `itzel remote` moves the app back onto its private
-virtual display. Switching displays restarts the app using the same saved profile,
+virtual display with a landscape layout, independent of desktop tiling. Use this
+mode when accessing the app remotely so a narrow tiled desktop window does not
+make the remote interface tiny. Switching displays restarts the app using the same saved profile,
 so wait for running agent work to finish first. The viewer follows the main window
 in either mode and does not change its size or layout.
 
