@@ -38,6 +38,17 @@ port. Open the HTTPS address in a browser. Click the interface to interact. For
 paste or mobile input, focus the desired field inside Itzel, enter text in the
 viewer toolbar, and choose **Insert text**; **Enter** sends an Enter key.
 
+## Terminal launcher
+
+On Linux, link `scripts/itzel` into a directory on your PATH, for example
+`~/.local/bin/itzel`. Run `itzel` to start the background services and open the
+browser interface. `itzel start` prints the address without opening a browser;
+`itzel status` and `itzel stop` manage the same services. On a checkout without
+the remote services, `itzel` uses the normal `npm start` desktop launcher.
+
+This is a launcher for the graphical application. Interactive terminal chat
+continues to use the installed `claude`, `codex`, or `pi` commands.
+
 This viewer does not implement native file dialogs, file transfer, audio, or
 clipboard synchronization. Files and agent commands remain on the host computer.
 
